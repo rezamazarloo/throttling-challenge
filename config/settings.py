@@ -13,10 +13,16 @@ ALLOWED_HOSTS = ["*"]
 
 
 INSTALLED_APPS = [
+    # Django apps
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    # Third-party apps
     "rest_framework",
+    "rest_framework.authtoken",
     "drf_spectacular",
+    # Local apps
+    "account.apps.AccountConfig", 
+    "account.authentication.apps.AuthenticationConfig", 
 ]
 
 MIDDLEWARE = [
