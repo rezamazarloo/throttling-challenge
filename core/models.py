@@ -11,7 +11,10 @@ class RequestLog(models.Model):
         db_index=False,
         related_name="request_logs",
     )
+    method = models.CharField(max_length=10)
     endpoint = models.CharField(max_length=255)
+    request_body = models.JSONField(null=True, blank=True)
+    response_body = models.JSONField(null=True, blank=True)
     status = models.PositiveSmallIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
