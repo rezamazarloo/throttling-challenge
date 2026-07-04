@@ -8,7 +8,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ("id", "username", "password")
+        fields = ("username", "password")
 
     def validate_password(self, value):
         validate_password(value)
@@ -16,3 +16,10 @@ class SignupSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return get_user_model().objects.create_user(**validated_data)
+
+
+class SignupResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ("id", "username")
+        read_only_fields = fields

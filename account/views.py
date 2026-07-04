@@ -1,24 +1,44 @@
+from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from account.serializers import SignupSerializer
+from account.serializers import SignupResponseSerializer, SignupSerializer
 
 
 class SignupView(APIView):
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        auth=[],
+        request=SignupSerializer,
+        responses={
+            status.HTTP_201_CREATED: SignupResponseSerializer,
+            status.HTTP_400_BAD_REQUEST: OpenApiResponse(
+                description="Invalid signup data."
+            ),
+        },
+    )
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        user = serializer.save()
+        return Response(
+            SignupResponseSerializer(user).data,
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        request=None,
+        responses={
+            status.HTTP_204_NO_CONTENT: OpenApiResponse(description="Logged out.")
+        },
+    )
     def post(self, request):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
