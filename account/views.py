@@ -1,10 +1,16 @@
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from account.serializers import SignupResponseSerializer, SignupSerializer
+from account.serializers import (
+    LoginResponseSerializer,
+    LoginSerializer,
+    SignupResponseSerializer,
+    SignupSerializer,
+)
 
 
 class SignupView(APIView):
@@ -28,6 +34,23 @@ class SignupView(APIView):
             SignupResponseSerializer(user).data,
             status=status.HTTP_201_CREATED,
         )
+
+
+class LoginView(ObtainAuthToken):
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        auth=[],
+        request=LoginSerializer,
+        responses={
+            status.HTTP_200_OK: LoginResponseSerializer,
+            status.HTTP_400_BAD_REQUEST: OpenApiResponse(
+                description="Invalid username or password."
+            ),
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 class LogoutView(APIView):
