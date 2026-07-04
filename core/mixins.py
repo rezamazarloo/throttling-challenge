@@ -16,6 +16,11 @@ class RequestLogMixin:
 
 
 class ThrottleFinalizeMixin:
+    """
+    this is useful for views that have throttling enabled, and we want
+    to rollback the throttle count if the response is not successful (e.g. 4xx or 5xx)
+    """
+
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
 
