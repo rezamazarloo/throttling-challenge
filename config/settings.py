@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # Local apps
     "account.apps.AccountConfig", 
-    "account.authentication.apps.AuthenticationConfig", 
 ]
 
 MIDDLEWARE = [
