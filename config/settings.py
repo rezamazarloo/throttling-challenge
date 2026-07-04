@@ -58,6 +58,11 @@ DATABASES = {
     }
 }
 
+REDIS_URL = f"redis://{os.getenv('REDIS_HOST', 'localhost')}:{os.getenv('REDIS_PORT', '6379')}/0"
+
+MESSAGE_RATE_LIMIT_COUNT = 5
+MESSAGE_RATE_LIMIT_WINDOW_SECONDS = 60
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
