@@ -3,6 +3,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from account.views import LogoutView, RegisterView
 
+app_name = "account"
+
 urlpatterns = [
     path("auth/signup/", RegisterView.as_view(), name="signup"),
     path("auth/login/", obtain_auth_token, name="login"),
