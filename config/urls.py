@@ -3,6 +3,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("account/", include("account.urls", namespace="account")),
+    path("communication/", include("communication.urls", namespace="communication")),
 ]
 
 if settings.DEBUG:
